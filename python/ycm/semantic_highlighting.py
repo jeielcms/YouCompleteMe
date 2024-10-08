@@ -112,11 +112,12 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
     # We requested a snapshot
     tokens = self._latest_response.get( 'tokens', [] )
 
+
     prev_prop_id = self._prop_id
     self._prop_id = NextPropID()
 
     for token in tokens:
-      prop_type = f"YCM_HL_{ token[ 'type' ] }"
+      prop_type = f"YCM_HL_{ token[ 'type' ] }_{token['mods']}"
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
