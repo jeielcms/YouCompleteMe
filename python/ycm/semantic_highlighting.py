@@ -112,6 +112,7 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
     # We requested a snapshot
     tokens = self._latest_response.get( 'tokens', [] )
 
+    props = tp.GetTextPropertyTypes()
     prev_prop_id = self._prop_id
     self._prop_id = NextPropID()
 
@@ -119,13 +120,12 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       mods = ''.join(token['modifiers'])
       prop_type = f"YCM_HL_{ token[ 'type' ]}_{mods}"
 
-      for token_type, group in HIGHLIGHT_GROUP.items():
-        prop = f'YCM_HL_{ prop_type }'
-        if prop not in props and vimsupport.GetIntValue(
-            f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
-          tp.AddTextPropertyType( prop,
-                                  highlight = group,
-                                  priority = 0 )
+      prop = f'YCM_HL_{ prop_type }'
+      if prop not in props and vimsupport.GetIntValue(
+          f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
+        tp.AddTextPropertyType( prop,
+                                highlight = HIGHLIGHT_GROUP.get(token['type']),
+                                priority = 0 )
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
