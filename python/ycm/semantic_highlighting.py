@@ -112,10 +112,10 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
     # We requested a snapshot
     tokens = self._latest_response.get( 'tokens', [] )
 
-    props = tp.GetTextPropertyTypes()
     prev_prop_id = self._prop_id
     self._prop_id = NextPropID()
 
+    props = tp.GetTextPropertyTypes()
     for token in tokens:
       mods = ''.join(token['modifiers'])
       prop_type = f"YCM_HL_{ token[ 'type' ]}_{mods}"
@@ -129,17 +129,17 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
-      try:
-        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
-      except vim.error as e:
-        if 'E971:' in str( e ): # Text property doesn't exist
-          if token[ 'type' ] not in REPORTED_MISSING_TYPES:
-            REPORTED_MISSING_TYPES.add( token[ 'type' ] )
-            vimsupport.PostVimMessage(
-              f"Token type { token[ 'type' ] } not supported. "
-              f"Define property type { prop_type }. "
-              f"See :help youcompleteme-customising-highlight-groups" )
-        else:
-          raise e
-
+#      try:
+#        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
+#      except vim.error as e:
+#        if 'E971:' in str( e ): # Text property doesn't exist
+#          if token[ 'type' ] not in REPORTED_MISSING_TYPES:
+#            REPORTED_MISSING_TYPES.add( token[ 'type' ] )
+#            vimsupport.PostVimMessage(
+#              f"Token type { token[ 'type' ] } not supported. "
+#              f"Define property type { prop_type }. "
+#              f"See :help youcompleteme-customising-highlight-groups" )
+#        else:
+#          raise e
+#
     tp.ClearTextProperties( self._bufnr, prop_id = prev_prop_id )
