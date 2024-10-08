@@ -129,11 +129,7 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
                                   highlight = group,
                                   priority = 0 )
         except vim.error as e:
-          if 'E858' in str(e):
-            pass
-          else:
-            raise e
-
+          pass
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
@@ -148,6 +144,6 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
               f"Define property type { prop_type }. "
               f"See :help youcompleteme-customising-highlight-groups" )
         else:
-          raise e
+          pass
 
     tp.ClearTextProperties( self._bufnr, prop_id = prev_prop_id )
