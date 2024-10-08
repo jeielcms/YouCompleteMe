@@ -131,6 +131,9 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
         except vim.error as e:
           if 'E858' in str(e):
             pass
+        else:
+          raise e
+
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
