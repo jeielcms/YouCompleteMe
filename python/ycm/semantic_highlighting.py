@@ -124,23 +124,27 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       print(group)
       if prop_type not in props and vimsupport.GetIntValue(
           f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
+        try:
         tp.AddTextPropertyType( prop_type,
                                 highlight = group,
                                 priority = 0 )
+        except vim.error as e:
+          if 'E858' in str(e):
+            pass
       rng = token[ 'range' ]
       self.GrowRangeIfNeeded( rng )
 
-#      try:
-#        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
-#      except vim.error as e:
-#        if 'E971:' in str( e ): # Text property doesn't exist
-#          if token[ 'type' ] not in REPORTED_MISSING_TYPES:
-#            REPORTED_MISSING_TYPES.add( token[ 'type' ] )
-#            vimsupport.PostVimMessage(
-#              f"Token type { token[ 'type' ] } not supported. "
-#              f"Define property type { prop_type }. "
-#              f"See :help youcompleteme-customising-highlight-groups" )
-#        else:
-#          raise e
-#
+      try:
+        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
+      except vim.error as e:
+        if 'E971:' in str( e ): # Text property doesn't exist
+          if token[ 'type' ] not in REPORTED_MISSING_TYPES:
+            REPORTED_MISSING_TYPES.add( token[ 'type' ] )
+            vimsupport.PostVimMessage(
+              f"Token type { token[ 'type' ] } not supported. "
+              f"Define property type { prop_type }. "
+              f"See :help youcompleteme-customising-highlight-groups" )
+        else:
+          raise e
+
     tp.ClearTextProperties( self._bufnr, prop_id = prev_prop_id )
