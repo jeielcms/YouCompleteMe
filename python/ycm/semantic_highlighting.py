@@ -116,7 +116,7 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
     self._prop_id = NextPropID()
 
     for token in tokens:
-      mods = token['modifiers'].join()
+      mods = str.join(token['modifiers'])
       prop_type = f"YCM_HL_{ token[ 'type' ]}{mods}"
       print(prop_type)
       rng = token[ 'range' ]
