@@ -125,9 +125,9 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       if prop_type not in props and vimsupport.GetIntValue(
           f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
         try:
-        tp.AddTextPropertyType( prop_type,
-                                highlight = group,
-                                priority = 0 )
+          tp.AddTextPropertyType( prop_type,
+                                  highlight = group,
+                                  priority = 0 )
         except vim.error as e:
           if 'E858' in str(e):
             pass
