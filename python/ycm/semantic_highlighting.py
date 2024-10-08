@@ -120,11 +120,10 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       mods = ''.join(token['modifiers'])
       prop_type = f"YCM_HL_{ token[ 'type' ]}_{mods}"
 
-      prop = f'YCM_HL_{ prop_type }'
       group = HIGHLIGHT_GROUP.get(token['type'])
-      if prop not in props and vimsupport.GetIntValue(
+      if prop_type not in props and vimsupport.GetIntValue(
           f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
-        tp.AddTextPropertyType( prop,
+        tp.AddTextPropertyType( prop_type,
                                 highlight = group,
                                 priority = 0 )
       rng = token[ 'range' ]
