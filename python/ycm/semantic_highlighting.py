@@ -117,14 +117,15 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
 
     props = tp.GetTextPropertyTypes()
     for token in tokens:
-      modifiers = ''.join(token['modifiers'])
-      prop = f"YCM_HL_{ token[ 'type' ]}_{modifiers}"
+      mods = ''.join(token['modifiers'])
+      prop_type = f"YCM_HL_{ token[ 'type' ]}_{mods}"
+      print(prop_type)
 
       group = HIGHLIGHT_GROUP.get(token['type'])
-      if prop not in props and vimsupport.GetIntValue(
+      if prop_type not in props and vimsupport.GetIntValue(
           f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
         try:
-          tp.AddTextPropertyType( prop,
+          tp.AddTextPropertyType( prop_type,
                                   highlight = group,
                                   priority = 0 )
         except vim.error as e:
@@ -137,7 +138,7 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       self.GrowRangeIfNeeded( rng )
 
       try:
-        tp.AddTextProperty( self._bufnr, self._prop_id, prop, rng )
+        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
       except vim.error as e:
         if 'E971:' in str( e ): # Text property doesn't exist
           if token[ 'type' ] not in REPORTED_MISSING_TYPES:
