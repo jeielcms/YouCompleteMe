@@ -32,7 +32,7 @@ HIGHLIGHT_GROUP = {
   'enum': 'Structure',
   'interface': 'Structure',
   'struct': 'Structure',
-  'typeParameter': 'Identifier',
+  'typeParameter': 'Type',
   'parameter': 'Identifier',
   'variable': 'Identifier',
   'property': 'Identifier',
