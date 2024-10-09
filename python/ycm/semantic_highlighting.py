@@ -119,9 +119,9 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
     for token in tokens:
       mods = ''.join(token['modifiers'])
       prop_type = f"YCM_HL_{ token[ 'type' ]}_{mods}"
-      print(prop_type)
 
       group = HIGHLIGHT_GROUP.get(token['type'])
+      print(group + " " + prop_type)
       if prop_type not in props and vimsupport.GetIntValue(
           f"hlexists( '{ vimsupport.EscapeForVim( group ) }' )" ):
         try:
