@@ -137,7 +137,7 @@ class SemanticHighlighting( sr.ScrollingBufferRange ):
       self.GrowRangeIfNeeded( rng )
 
       try:
-        tp.AddTextProperty( self._bufnr, self._prop_id, prop_type, rng )
+        tp.AddTextProperty( self._bufnr, self._prop_id, prop, rng )
       except vim.error as e:
         if 'E971:' in str( e ): # Text property doesn't exist
           if token[ 'type' ] not in REPORTED_MISSING_TYPES:
